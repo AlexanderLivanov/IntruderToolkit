@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 import sqlite3
 
 
@@ -43,12 +44,15 @@ cur.execute("""CREATE TABLE IF NOT EXISTS urls(
 
 
 def saveurl(url, description):
-    result = (url, description)
-    cur.execute(r"INSERT INTO urls VALUES(NULL, ?, ?);", result)
-    connection.commit()
-    displayFields(len(returnDBContent()), returnDBContent())
-    firstUrlField.insert(0, '')
-    firstDescriptionField.insert(0, '')
+    if len(url) > 4 and '.' in url:
+        result = (url, description)
+        cur.execute(r"INSERT INTO urls VALUES(NULL, ?, ?);", result)
+        connection.commit()
+        displayFields(len(returnDBContent()), returnDBContent())
+        firstUrlField.insert(0, '')
+        firstDescriptionField.insert(0, '')
+    else:
+        messagebox.showerror("Error", "URL lenght must be at least 4 symbols and contain '.'")
 
 
 def returnDBContent():
@@ -67,6 +71,7 @@ def getEntryContent():
 def deleteEntry(index):
     cur.execute(f"DELETE FROM urls WHERE id={index}")
     connection.commit()
+    window.update()
     window.update_idletasks()
 
 
