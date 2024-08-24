@@ -2,11 +2,12 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 import sqlite3
+import socket
 
 
 window = Tk()
-window.title("Toririze v1.0")
-window.geometry('800x500')
+window.title("Toririze v1.1")
+window.geometry('800x600')
 
 tabs = ttk.Notebook(window)
 
@@ -104,6 +105,18 @@ saveBtn.grid(column=2, row=0)
 # TAB 2 CONTENT
 
 
+def pingUrl(url):
+    try:
+        socket.setdefaulttimeout(5)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((url, 80))
+    except OSError as error:
+        return "Inactive"
+    else:
+        s.close()
+        return "Active"
+
+
 def checkAvailability():
     for i in returnDBContent():
         urlField = Label(tab2, text=i[1], borderwidth=2, relief="groove", width=30)
@@ -112,9 +125,13 @@ def checkAvailability():
         descField = Label(tab2, text=i[2], borderwidth=2, relief="groove", width=30)
         descField.grid(row=returnDBContent().index(i)+1, column=1)
 
+        statusField = Label(tab2, text=pingUrl(i[1]), borderwidth=2, relief="groove", width=30)
+        statusField.grid(row=returnDBContent().index(i)+1, column=2)
 
-checkBtn = Button(tab2, text="Check URLs availability", command=checkAvailability)
-checkBtn.grid(column=0, row=0)
+
+reloadBtn = Button(tab2, text="Reload URLs list", command=checkAvailability)
+reloadBtn.grid(column=0, row=0)
+
 
 # TAB 2 CONTENT END
 
