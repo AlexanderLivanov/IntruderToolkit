@@ -13,21 +13,21 @@
 Новые инструменты будут добавляться.
 
 ### Скриншоты программы
-![alt text](image-2.png)
-![alt text](image.png)
+![alt text](img/image-2.png)
+![alt text](img/image.png)
 
 ### Установка
 ###### Для Windows юзеров
 - скачайте архив с программой (кнопка download zip)
- ![alt text](image-1.png)
+ ![alt text](img/image-1.png)
 
 - распакуйте архив в удобную для вас папку
-![alt text](image-3.png)
+![alt text](img/image-3.png)
 
 - (для дальнейшей работы у вас должен быть установлен интерпретатор Python)
 
 - откройте командную строку в папке с проектом
-![alt text](image-4.png)
+![alt text](img/image-4.png)
 
 - в приглашение командной строки введите 
     ```python
