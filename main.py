@@ -69,7 +69,7 @@ def getEntryContent():
 
 
 def deleteEntry(index):
-    cur.execute(f"DELETE FROM urls WHERE id={index}")
+    cur.execute(f"DELETE FROM urls WHERE id={index};")
     connection.commit()
     window.update()
     window.update_idletasks()
