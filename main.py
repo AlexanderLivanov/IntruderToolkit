@@ -42,6 +42,7 @@ cur = connection.cursor()
 cur.execute("""CREATE TABLE IF NOT EXISTS urls(
             id INTEGER PRIMARY KEY autoincrement, url TEXT, description TEXT);""")
 
+# TAB 1 CONTENT
 
 def saveurl(url, description):
     if len(url) > 4 and '.' in url:
@@ -58,7 +59,7 @@ def saveurl(url, description):
 def returnDBContent():
     cur.execute("SELECT * FROM urls;")
     result = cur.fetchall()
-    
+
     return result
 
 
@@ -71,8 +72,6 @@ def getEntryContent():
 def deleteEntry(index):
     cur.execute(f"DELETE FROM urls WHERE id={index};")
     connection.commit()
-    window.update()
-    window.update_idletasks()
 
 
 def displayFields(count, res):
@@ -99,5 +98,24 @@ firstDescriptionField.grid(column=1, row=0)
 
 saveBtn = Button(tab1, text="Save URLs", command=lambda: getEntryContent())
 saveBtn.grid(column=2, row=0)
+
+# TAB 1 CONTENT END
+
+# TAB 2 CONTENT
+
+
+def checkAvailability():
+    for i in returnDBContent():
+        urlField = Label(tab2, text=i[1], borderwidth=2, relief="groove", width=30)
+        urlField.grid(row=returnDBContent().index(i)+1, column=0)
+
+        descField = Label(tab2, text=i[2], borderwidth=2, relief="groove", width=30)
+        descField.grid(row=returnDBContent().index(i)+1, column=1)
+
+
+checkBtn = Button(tab2, text="Check URLs availability", command=checkAvailability)
+checkBtn.grid(column=0, row=0)
+
+# TAB 2 CONTENT END
 
 window.mainloop()
