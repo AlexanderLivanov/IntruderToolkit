@@ -6,7 +6,7 @@ import socket
 
 
 window = Tk()
-window.title("Toririze v1.1")
+window.title("Intruder v1.1")
 window.geometry('800x600')
 
 tabs = ttk.Notebook(window)
