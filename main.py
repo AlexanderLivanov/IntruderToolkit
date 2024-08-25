@@ -3,10 +3,11 @@ from tkinter import ttk
 from tkinter import messagebox
 import sqlite3
 import socket
+import requests
 
 
 window = Tk()
-window.title("Intruder v1.1")
+window.title("Intruder v1.2")
 window.geometry('800x600')
 
 tabs = ttk.Notebook(window)
@@ -32,7 +33,11 @@ tabs.add(tab5, text="Proxy")
 tabs.pack(expand=1, fill='both')
 
 tab6 = ttk.Frame(tabs)
-tabs.add(tab6, text="Setting")
+tabs.add(tab6, text="FakeGPS")
+tabs.pack(expand=1, fill='both')
+
+tab7 = ttk.Frame(tabs)
+tabs.add(tab7, text="Setting")
 tabs.pack(expand=1, fill='both')
 
 text1 = Label(tab1, text="You can save .onion URLs here")
@@ -134,5 +139,60 @@ reloadBtn.grid(column=0, row=0)
 
 
 # TAB 2 CONTENT END
+
+# TAB 3 CONTENT
+
+# TAB 3 CONTENT END
+
+# TAB 4 CONTENT
+
+
+def connectVPN():
+    cntry = vpnField.get()
+    j = 5
+    result = []
+    try:
+        vpnServerListData = requests.get("http://www.vpngate.net/api/iphone/").text.replace(
+            "\r", ""
+        )
+        freeServers = [line.split(",") for line in vpnServerListData.split("\n")]
+        serverLabels = freeServers[1]
+        serverLabels[0] = serverLabels[0][1:]
+        freeServers = [srvrs for srvrs in freeServers[2:] if len(srvrs) > 1]
+    except:
+        print("Something is wrong! Cannot load the VPN server's data")
+        exit(1)
+    
+    availableServers = [srvrs for srvrs in freeServers if cntry.lower() in srvrs[j].lower()]
+    numOfServers = len(availableServers)
+    result.append("We found " + str(numOfServers) + " servers for " + cntry + "\n")
+    if numOfServers == 0:
+        exit(1)
+
+    supporteServers = [srvrs for srvrs in availableServers if len(srvrs[-1]) > 0]
+    result.append("There are " + str(len(supporteServers)) + " servers that support OpenVPN\n")
+
+    bestServer = sorted(
+    supporteServers, key=lambda srvrs: float(srvrs[2].replace(",", ".")), reverse=True)[0]
+    result.append("\n------------------Best server------------------\n")
+    labelPair = list(zip(serverLabels, bestServer))[:-1]
+    for (l, d) in labelPair[:4]:
+        result.append(l + ": " + d + "\n")
+    result.append(labelPair[4][0] + ": " + str(float(labelPair[4][1]) / 10 ** 6) + " MBps\n")
+    result.append("Country: " + labelPair[5][1] + "\n")
+
+    infoLbl = Label(tab4, width=60, text=result)
+    infoLbl.grid(column=0, row=1)
+
+    # print(result[4])
+
+
+vpnField = Entry(tab4, width=60)
+vpnField.grid(column=0, row=0)
+
+connectVPNBtn = Button(tab4, text="Connect to VPN", command=connectVPN)
+connectVPNBtn.grid(column=1, row=0)
+
+# TAB 4 CONTENT END
 
 window.mainloop()
