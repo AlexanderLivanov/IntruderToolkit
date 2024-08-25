@@ -17,7 +17,7 @@
 ### Скриншоты программы
 ![alt text](img/image-2.png)
 ![alt text](img/image.png)
-![alt text](img/image.png)
+![alt text](img/image-5.png)
 
 ### Установка
 #### Для Windows юзеров
