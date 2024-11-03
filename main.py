@@ -4,6 +4,9 @@ from tkinter import messagebox
 import sqlite3
 import socket
 import requests
+import mouse
+from random import randint
+from time import sleep
 
 
 window = Tk()
@@ -33,7 +36,7 @@ tabs.add(tab5, text="Proxy")
 tabs.pack(expand=1, fill='both')
 
 tab6 = ttk.Frame(tabs)
-tabs.add(tab6, text="FakeGPS")
+tabs.add(tab6, text="Mouse Sim")
 tabs.pack(expand=1, fill='both')
 
 tab7 = ttk.Frame(tabs)
@@ -194,5 +197,21 @@ connectVPNBtn = Button(tab4, text="Connect to VPN", command=connectVPN)
 connectVPNBtn.grid(column=1, row=0)
 
 # TAB 4 CONTENT END
+
+
+# TAB 6 CONTENT
+
+
+def simMouse():
+    while True:
+        mouse.move(randint(-350, 350), randint(-350, 350), absolute=False, duration=0.5)
+        sleep(600)
+
+
+moveBtn = Button(tab6, text="Start simulating", command=simMouse)
+moveBtn.grid(column=1, row=0)
+
+
+# TAB 6 CONTENT END
 
 window.mainloop()
